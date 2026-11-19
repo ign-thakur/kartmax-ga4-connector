@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Channel analytics — KartmaX GA4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/ga4-theme.css?v=2" />
+  <link rel="stylesheet" href="/static/ga-date-picker.css?v=2" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+</head>
+<body class="gafe">
+  <header class="gmp-suite-header" role="banner">
+    <div class="gmp-product-lockup">
+      <span class="material-symbols-outlined" style="color:#f9ab00" aria-hidden="true">analytics</span>
+      <strong>KartmaX</strong>
+      <span style="color:var(--ga-divider)">|</span>
+      <span>Analytics connector</span>
+    </div>
+    <span class="gmp-header-spacer"></span>
+  </header>
+
+  <div class="app-content">
+    <nav class="ga-primary-nav" aria-label="Main pages">
+      <a href="/events" class="nav-icon selected" title="Reports" aria-current="page">
+        <span class="material-symbols-outlined" aria-hidden="true">insert_chart</span>
+      </a>
+      <a href="/" class="nav-icon" title="Channel overview">
+        <span class="material-symbols-outlined" aria-hidden="true">donut_small</span>
+      </a>
+    </nav>
+
+    <nav class="ga-secondary-nav" aria-label="Secondary navigation">
+      <div class="nav-section">
+        <div class="nav-group">Reports</div>
+        <a class="nav-item selected" href="/">Channel overview</a>
+        <a class="nav-item child" href="/">GMV by channel</a>
+        <a class="nav-item child" href="/">Sessions by channel</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-group">Life cycle</div>
+        <a class="nav-item" href="/events">Engagement</a>
+        <a class="nav-item child" href="/events">Events: Event name</a>
+      </div>
+    </nav>
+
+    <div class="app-main-content">
+      <div class="ga-report">
+        <div id="dateBackdrop" class="ga-backdrop" hidden></div>
+
+        <div class="ga-report-header">
+          <div class="global-controls">
+            <div class="comparison-chip" role="button" tabindex="0" aria-label="All Users">
+              <span class="initial">A</span>
+              <span>All Users</span>
+            </div>
+            <button type="button" class="add-comparison" disabled>
+              Add comparison
+              <span class="material-symbols-outlined" style="font-size:18px">add</span>
+            </button>
+          </div>
+          <hr class="header-divider" />
+          <div class="report-controls">
+            <div class="left-column">
+              <div class="report-title-section">
+                <span class="report-selector-title">Report:</span>
+                <h1 class="report-title-main">Channel overview</h1>
+              </div>
+              <div class="report-filter-row">
+                <button type="button" class="add-filter" disabled>
+                  Add filter
+                  <span class="material-symbols-outlined" style="font-size:18px">add</span>
+                </button>
+              </div>
+              <p id="meta" class="table-footer-meta"></p>
+            </div>
+            <div class="report-controls-right">
+              <div id="gaDatePicker" class="ga-date-wrap align-end">
+                <button type="button" id="dateTrigger" class="gafe-date-trigger" aria-haspopup="dialog" aria-label="Open date range picker">
+                  <span class="selected-date">
+                    <span id="triggerPreset" class="primary-date-range-key">Custom</span>
+                    <span id="triggerRange" class="primary-date-range-text">Select range</span>
+                  </span>
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+                </button>
+                <div id="datePopover" class="ga-popover" role="dialog" aria-label="Date range" hidden>
+                  <div class="ga-popover-body">
+                    <nav class="ga-presets" aria-label="Date presets">
+                      <div id="presetsList" class="ga-presets-list"></div>
+                      <div class="ga-presets-footer">
+                        <div class="ga-compare" title="Compare not available">
+                          <span>Compare</span>
+                          <div class="ga-toggle"></div>
+                        </div>
+                      </div>
+                    </nav>
+                    <div class="ga-calendar-pane">
+                      <div class="ga-date-inputs">
+                        <label>Start date<input type="text" id="startDateInput" autocomplete="off" /></label>
+                        <label>End date<input type="text" id="endDateInput" autocomplete="off" /></label>
+                      </div>
+                      <p id="rangeSelectHint" class="ga-range-hint"></p>
+                      <div id="monthsScroll" class="ga-months-scroll"></div>
+                    </div>
+                  </div>
+                  <footer class="ga-popover-footer">
+                    <button type="button" class="ga-btn-text" id="cancelBtn">Cancel</button>
+                    <button type="button" class="ga-btn-text" id="applyBtn">Apply</button>
+                  </footer>
+                </div>
+              </div>
+              <span class="report-header-vdivider" aria-hidden="true"></span>
+              <div class="report-toolbar" aria-label="Report tools">
+                <button type="button" class="icon-btn" aria-label="Share" disabled><span class="material-symbols-outlined" aria-hidden="true">share</span></button>
+                <button type="button" class="icon-btn" aria-label="Edit" disabled><span class="material-symbols-outlined" aria-hidden="true">edit</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ga-report-content">
+          <p id="status" class="ga-status" style="display:none"></p>
+          <div class="ga-card-list-content explorer">
+            <section class="xap-card">
+              <div class="explorer-title">
+                <h2>Total GMV by channel</h2>
+              </div>
+              <div class="canvas-wrap"><canvas id="gmvChart"></canvas></div>
+              <div class="table-scroller">
+                <table class="adv-table">
+                  <thead>
+                    <tr><th>Channel</th><th class="num">Total GMV</th></tr>
+                  </thead>
+                  <tbody id="gmvBody"></tbody>
+                </table>
+              </div>
+            </section>
+            <section class="xap-card">
+              <div class="explorer-title">
+                <h2>Sessions by channel</h2>
+              </div>
+              <div class="canvas-wrap"><canvas id="sessionsChart"></canvas></div>
+              <div class="table-scroller">
+                <table class="adv-table">
+                  <thead>
+                    <tr><th>Channel</th><th class="num">Sessions</th></tr>
+                  </thead>
+                  <tbody id="sessionsBody"></tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/ga-date-picker.js"></script>
+  <script>
+    let gmvChart;
+    let sessionsChart;
+    let datePicker;
+
+    const CHART_AXIS = { ticks: { color: "#5f6368" }, grid: { color: "rgba(0,0,0,0.08)" } };
+
+    function showStatus(msg) {
+      const el = document.getElementById("status");
+      el.textContent = msg;
+      el.style.display = msg ? "block" : "none";
+    }
+
+    function formatGmv(value) {
+      return Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 });
+    }
+
+    function formatSessions(value) {
+      return Number(value).toLocaleString(undefined, { maximumFractionDigits: 0 });
+    }
+
+    function renderTable(tbodyId, rows, key, formatter) {
+      const tbody = document.getElementById(tbodyId);
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="2">No rows in this range</td></tr>';
+        return;
+      }
+      tbody.innerHTML = rows.map((r, i) =>
+        `<tr class="${i % 2 ? "" : "shaded"}"><td>${r.channel}</td><td class="num">${formatter(r[key])}</td></tr>`
+      ).join("");
+    }
+
+    function renderBarChart(canvasId, existingChart, rows, key, label, color) {
+      const top = rows.slice(0, 8);
+      const ctx = document.getElementById(canvasId);
+      if (existingChart) existingChart.destroy();
+      return new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: top.map((r) => r.channel),
+          datasets: [{
+            label,
+            data: top.map((r) => r[key]),
+            backgroundColor: color,
+            borderWidth: 0,
+          }],
+        },
+        options: {
+          indexAxis: "y",
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: CHART_AXIS,
+            y: { ticks: { color: "#5f6368", font: { size: 12 } }, grid: { display: false } },
+          },
+        },
+      });
+    }
+
+    function renderMeta(data) {
+      const parts = [
+        `Property ${data.property_id || "—"}`,
+        `${data.start_date} → ${data.end_date}`,
+      ];
+      if (data.currency) parts.push(`Currency ${data.currency}`);
+      document.getElementById("meta").textContent = parts.join(" · ");
+    }
+
+    async function loadDashboard(start, end) {
+      showStatus("");
+      const params = new URLSearchParams({ start_date: start, end_date: end });
+      const res = await fetch(`/api/dashboard?${params}`);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        showStatus(err.detail || "Failed to load dashboard.");
+        return;
+      }
+      const data = await res.json();
+      const hasRows =
+        (data.gmv_by_channel && data.gmv_by_channel.length) ||
+        (data.sessions_by_channel && data.sessions_by_channel.length);
+      if (!hasRows) showStatus("GA4 returned no channel rows for this date range.");
+      renderMeta(data);
+      renderTable("gmvBody", data.gmv_by_channel, "gmv", formatGmv);
+      renderTable("sessionsBody", data.sessions_by_channel, "sessions", formatSessions);
+      gmvChart = renderBarChart("gmvChart", gmvChart, data.gmv_by_channel, "gmv", "GMV", "#34a853");
+      sessionsChart = renderBarChart("sessionsChart", sessionsChart, data.sessions_by_channel, "sessions", "Sessions", "#1a73e8");
+    }
+
+    async function init() {
+      const res = await fetch("/api/range");
+      const range = await res.json();
+      const initial = GADateRangeStorage.resolveInitialRange(range);
+      if (!initial) {
+        showStatus("No exports in output/. Run report commands or connect GA4.");
+        return;
+      }
+      datePicker = new GADateRangePicker({ onApply: ({ start, end }) => loadDashboard(start, end) });
+      const selectableMax = GADateRangeStorage.selectableMaxDate(range);
+      datePicker.setBounds(
+        GADateRangeStorage.selectableMinDate(),
+        selectableMax,
+        range.data_min_date || range.min_date,
+        range.data_max_date || range.max_date
+      );
+      datePicker.setRange(initial.start, initial.end, initial.preset);
+      await loadDashboard(initial.start, initial.end);
+    }
+
+    init();
+  </script>
+</body>
+</html>

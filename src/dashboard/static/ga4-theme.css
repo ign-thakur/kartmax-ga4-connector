@@ -1,0 +1,576 @@
+/* KartmaX local UI — GA4 / gafe design tokens & layout */
+
+:root {
+  --ga-primary: #1a73e8;
+  --ga-primary-light: #e8f0fe;
+  --ga-text: rgba(0, 0, 0, 0.87);
+  --ga-text-secondary: rgba(0, 0, 0, 0.54);
+  --ga-divider: rgba(0, 0, 0, 0.12);
+  --ga-bg: #fafafa;
+  --ga-surface: #fff;
+  --ga-green: #34a853;
+  --ga-header-h: 56px;
+  --ga-nav-primary: 72px;
+  --ga-nav-secondary: 248px;
+  --ga-font: Roboto, "Helvetica Neue", sans-serif;
+  --ga-font-display: Roboto, "Helvetica Neue", sans-serif;
+  --ga-shadow-card: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  height: 100%;
+  color-scheme: light;
+}
+
+html, html button, html input, html select, html textarea {
+  color: #222;
+  font-family: var(--ga-font);
+  font-size: 13px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.gafe {
+  margin: 0;
+  overflow: hidden;
+  height: 100%;
+  min-height: 100%;
+  background: var(--ga-bg);
+  color: var(--ga-text);
+  line-height: 1.5;
+}
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined", sans-serif !important;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  vertical-align: middle;
+}
+
+/* Suite header */
+.gmp-suite-header {
+  height: var(--ga-header-h);
+  background: var(--ga-surface);
+  border-bottom: 1px solid var(--ga-divider);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.gmp-product-lockup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ga-font-display);
+  font-size: 14px;
+  color: var(--ga-text-secondary);
+}
+
+.gmp-product-lockup strong {
+  color: var(--ga-text);
+  font-weight: 500;
+}
+
+.gmp-header-spacer { flex: 1; }
+
+/* App layout */
+.app-content {
+  display: flex;
+  height: calc(100vh - var(--ga-header-h));
+  overflow: hidden;
+}
+
+.ga-primary-nav {
+  width: var(--ga-nav-primary);
+  background: #f8f9fa;
+  border-right: 1px solid var(--ga-divider);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.ga-primary-nav a.nav-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  color: var(--ga-text-secondary);
+  text-decoration: none;
+}
+
+.ga-primary-nav a.nav-icon .material-symbols-outlined {
+  font-size: 24px;
+  color: inherit;
+}
+
+.ga-primary-nav a.nav-icon.selected {
+  background: #e8f0fe;
+  color: var(--ga-primary);
+}
+
+.ga-secondary-nav {
+  width: var(--ga-nav-secondary);
+  background: var(--ga-surface);
+  border-right: 1px solid var(--ga-divider);
+  overflow-y: auto;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+
+.ga-secondary-nav .nav-section {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ga-divider);
+}
+
+.ga-secondary-nav .nav-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: transparent;
+  padding: 8px 16px;
+  min-height: 40px;
+  line-height: 20px;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ga-secondary-nav .nav-item.child {
+  padding-left: 32px;
+  font-size: 14px;
+}
+
+.ga-secondary-nav .nav-item.selected {
+  background: #e8f0fe;
+  color: var(--ga-primary);
+  font-weight: 500;
+}
+
+.ga-secondary-nav .nav-item:not(.selected):hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.ga-secondary-nav .nav-group {
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.app-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.ga-report {
+  flex: 1;
+  overflow: auto;
+  background: var(--ga-bg);
+}
+
+.ga-report-content {
+  padding: 0 24px 24px;
+  max-width: none;
+  margin: 0 auto;
+}
+
+/* Report header (GA4 ga-report-header-v2) */
+.ga-report-header {
+  background: var(--ga-surface);
+  border-bottom: 1px solid var(--ga-divider);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.global-controls {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 24px;
+}
+
+.comparison-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px 4px 4px;
+  border-radius: 16px;
+  border: 1px solid var(--ga-primary);
+  background: var(--ga-primary-light);
+  font-size: 13px;
+  color: var(--ga-text);
+}
+
+.comparison-chip .initial {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--ga-primary);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.add-comparison, .add-filter {
+  border: none;
+  background: transparent;
+  color: var(--ga-primary);
+  font: 500 14px/20px var(--ga-font);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+}
+
+.add-comparison:disabled, .add-filter:disabled,
+.icon-btn:disabled {
+  opacity: 0.38;
+  cursor: default;
+  pointer-events: none;
+}
+
+.header-divider {
+  border: 0;
+  border-top: 1px solid var(--ga-divider);
+  margin: 0;
+}
+
+.report-controls {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 24px 16px;
+  flex-wrap: wrap;
+}
+
+.report-controls .left-column {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.report-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.report-header-vdivider {
+  width: 1px;
+  align-self: stretch;
+  min-height: 32px;
+  background: var(--ga-divider);
+  margin: 0 4px;
+}
+
+.report-title-section {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.report-filter-row {
+  margin-top: 8px;
+}
+
+.report-selector-title {
+  color: var(--ga-text-secondary);
+  font-size: 13px;
+}
+
+h1.report-title-main {
+  margin: 0;
+  font-family: var(--ga-font-display);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 28px;
+  color: var(--ga-text);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+h1.report-title-main .quality-badge {
+  color: var(--ga-green);
+  font-size: 22px;
+}
+
+.report-toolbar {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  color: #5f6368;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-btn:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+/* GA date trigger */
+.gafe-date-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--ga-primary);
+  font: inherit;
+}
+
+.gafe-date-trigger:hover {
+  background: rgba(26, 115, 232, 0.04);
+}
+
+.gafe-date-trigger .selected-date {
+  text-align: left;
+}
+
+.gafe-date-trigger .primary-date-range-key {
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ga-text-secondary);
+}
+
+.gafe-date-trigger .primary-date-range-text {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--ga-primary);
+  font-weight: 500;
+}
+
+/* Cards (xap-card / ga-card) */
+.ga-card-list-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.xap-card {
+  background: var(--ga-surface);
+  border-radius: 4px;
+  box-shadow: var(--ga-shadow-card);
+  padding: 16px;
+  flex: 1 1 calc(50% - 12px);
+  min-width: min(380px, 100%);
+  max-width: 100%;
+}
+
+.xap-card.wide {
+  flex: 1 1 100%;
+}
+
+.explorer-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  min-height: 35px;
+}
+
+.explorer-title h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: var(--ga-text);
+}
+
+.granularity-pill {
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid var(--ga-divider);
+  border-radius: 4px;
+  color: var(--ga-text-secondary);
+  background: var(--ga-surface);
+}
+
+.canvas-wrap {
+  height: 340px;
+  position: relative;
+}
+
+.canvas-wrap canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Table */
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--ga-divider);
+  padding: 4px 0;
+  min-width: 220px;
+}
+
+.search-field input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+}
+
+.table-scroller {
+  overflow-x: auto;
+}
+
+.adv-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.adv-table th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--ga-text);
+  border-bottom: 1px solid var(--ga-divider);
+  padding: 12px 16px;
+  white-space: nowrap;
+}
+
+.adv-table th.num,
+.adv-table td.num {
+  text-align: right;
+}
+
+.adv-table th.sortable {
+  color: var(--ga-primary);
+}
+
+.adv-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--ga-divider);
+  color: var(--ga-text);
+}
+
+.adv-table tr.shaded td {
+  background: #f8f9fa;
+}
+
+.adv-table .dim-link {
+  color: var(--ga-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.adv-table .pct {
+  display: block;
+  font-size: 12px;
+  color: var(--ga-text-secondary);
+}
+
+.table-footer-meta {
+  font-size: 12px;
+  color: var(--ga-text-secondary);
+  padding: 8px 0;
+}
+
+#status.ga-status {
+  margin: 12px 24px;
+  padding: 10px 12px;
+  background: #fce8e6;
+  color: #c5221f;
+  border-radius: 4px;
+  font-size: 13px;
+}
+
+#status.ga-status:empty,
+#status.ga-status[style*="display: none"] {
+  display: none !important;
+}
+
+/* Date picker in header */
+.ga-date-wrap {
+  position: relative;
+  z-index: 30;
+}
+
+.ga-date-wrap.align-end .ga-popover {
+  left: auto;
+  right: 0;
+}
+
+.ga-report-header .ga-backdrop,
+#dateBackdrop {
+  z-index: 25;
+}
+
+.ga-popover {
+  z-index: 40;
+}
+
+.xap-card .adv-table {
+  margin-top: 12px;
+}
+
+@media (max-width: 960px) {
+  .ga-secondary-nav { display: none; }
+  :root { --ga-nav-secondary: 0px; }
+}

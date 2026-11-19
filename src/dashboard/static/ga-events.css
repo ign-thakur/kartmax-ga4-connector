@@ -1,0 +1,173 @@
+.ga-events-page {
+  margin: 0;
+  background: #f8f9fa;
+  color: #3c4043;
+  font-family: "Google Sans", "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+.app-nav {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid #e8eaed;
+  font-size: 0.875rem;
+}
+
+.app-nav a {
+  color: #5f6368;
+  text-decoration: none;
+}
+
+.app-nav a.active,
+.app-nav a:hover {
+  color: #1a73e8;
+}
+
+.ga-report-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: #fff;
+  border-bottom: 1px solid #e8eaed;
+}
+
+.ga-report-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ga-report-title h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+
+.ga-check {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  background: #34a853;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.ga-events-main {
+  padding: 1.25rem 1.5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.ga-charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 960px) {
+  .ga-charts-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ga-card {
+  background: #fff;
+  border: 1px solid #e8eaed;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.08);
+}
+
+.ga-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.ga-card-head h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.ga-pill {
+  font-size: 12px;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  color: #5f6368;
+}
+
+.ga-table-card {
+  padding-bottom: 0.5rem;
+}
+
+.ga-table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.ga-search-wrap input {
+  width: 220px;
+  padding: 0.45rem 0.65rem;
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.ga-table-meta {
+  font-size: 12px;
+  color: #5f6368;
+}
+
+.ga-table-scroll {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th,
+td {
+  padding: 0.55rem 0.75rem;
+  border-bottom: 1px solid #e8eaed;
+  text-align: left;
+}
+
+th.num,
+td.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+th.sortable {
+  color: #1a73e8;
+}
+
+td a,
+.event-link {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.ga-status {
+  color: #c5221f;
+  text-align: center;
+  padding: 1rem;
+}

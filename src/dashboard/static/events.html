@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events: Event name — KartmaX GA4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/ga4-theme.css?v=2" />
+  <link rel="stylesheet" href="/static/ga-date-picker.css?v=2" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+</head>
+<body class="gafe">
+  <header class="gmp-suite-header" role="banner">
+    <div class="gmp-product-lockup">
+      <span class="material-symbols-outlined" style="color:#f9ab00" aria-hidden="true">analytics</span>
+      <strong>KartmaX</strong>
+      <span style="color:var(--ga-divider)">|</span>
+      <span>Analytics connector</span>
+    </div>
+    <span class="gmp-header-spacer"></span>
+  </header>
+
+  <div class="app-content">
+    <nav class="ga-primary-nav" aria-label="Main pages">
+      <a href="/events" class="nav-icon selected" title="Reports" aria-current="page">
+        <span class="material-symbols-outlined" aria-hidden="true">insert_chart</span>
+      </a>
+      <a href="/" class="nav-icon" title="Channel overview">
+        <span class="material-symbols-outlined" aria-hidden="true">donut_small</span>
+      </a>
+    </nav>
+
+    <nav class="ga-secondary-nav" aria-label="Secondary navigation">
+      <div class="nav-section">
+        <a class="nav-item" href="/">Reports snapshot</a>
+        <a class="nav-item" href="/">Channel overview</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-group">Life cycle</div>
+        <span class="nav-item" style="cursor:default">Engagement</span>
+        <a class="nav-item child selected" href="/events">Events: Event name</a>
+      </div>
+    </nav>
+
+    <div class="app-main-content">
+      <div class="ga-report">
+        <div id="dateBackdrop" class="ga-backdrop" hidden></div>
+
+        <div class="ga-report-header">
+          <div class="global-controls">
+            <div class="comparison-chip" role="button" tabindex="0" aria-label="All Users">
+              <span class="initial">A</span>
+              <span>All Users</span>
+            </div>
+            <button type="button" class="add-comparison" disabled>
+              Add comparison
+              <span class="material-symbols-outlined" style="font-size:18px">add</span>
+            </button>
+          </div>
+          <hr class="header-divider" />
+          <div class="report-controls">
+            <div class="left-column">
+              <div class="report-title-section">
+                <span class="report-selector-title">Report Selector:</span>
+                <h1 class="report-title-main">
+                  Events: Event name
+                  <span class="material-symbols-outlined quality-badge" title="Live GA4 data" aria-hidden="true">check_circle</span>
+                </h1>
+              </div>
+              <div class="report-filter-row">
+                <button type="button" class="add-filter" disabled>
+                  Add filter
+                  <span class="material-symbols-outlined" style="font-size:18px">add</span>
+                </button>
+              </div>
+            </div>
+            <div class="report-controls-right">
+              <div id="gaDatePicker" class="ga-date-wrap align-end">
+                <button type="button" id="dateTrigger" class="gafe-date-trigger" aria-haspopup="dialog" aria-label="Open date range picker">
+                  <span class="selected-date">
+                    <span id="triggerPreset" class="primary-date-range-key">Custom</span>
+                    <span id="triggerRange" class="primary-date-range-text">Select range</span>
+                  </span>
+                  <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+                </button>
+                <div id="datePopover" class="ga-popover" role="dialog" aria-label="Date range" hidden>
+                  <div class="ga-popover-body">
+                    <nav class="ga-presets" aria-label="Date presets">
+                      <div id="presetsList" class="ga-presets-list"></div>
+                      <div class="ga-presets-footer">
+                        <div class="ga-compare" title="Compare not available">
+                          <span>Compare</span>
+                          <div class="ga-toggle"></div>
+                        </div>
+                      </div>
+                    </nav>
+                    <div class="ga-calendar-pane">
+                      <div class="ga-date-inputs">
+                        <label>Start date<input type="text" id="startDateInput" autocomplete="off" /></label>
+                        <label>End date<input type="text" id="endDateInput" autocomplete="off" /></label>
+                      </div>
+                      <p id="rangeSelectHint" class="ga-range-hint"></p>
+                      <div id="monthsScroll" class="ga-months-scroll"></div>
+                    </div>
+                  </div>
+                  <footer class="ga-popover-footer">
+                    <button type="button" class="ga-btn-text" id="cancelBtn">Cancel</button>
+                    <button type="button" class="ga-btn-text" id="applyBtn">Apply</button>
+                  </footer>
+                </div>
+              </div>
+              <span class="report-header-vdivider" aria-hidden="true"></span>
+              <div class="report-toolbar" aria-label="Report tools">
+                <button type="button" class="icon-btn" aria-label="Annotations" disabled><span class="material-symbols-outlined" aria-hidden="true">edit_note</span></button>
+                <button type="button" class="icon-btn" aria-label="Compare" disabled><span class="material-symbols-outlined" aria-hidden="true">compare</span></button>
+                <button type="button" class="icon-btn" aria-label="Share" disabled><span class="material-symbols-outlined" aria-hidden="true">share</span></button>
+                <button type="button" class="icon-btn" aria-label="Customize" disabled><span class="material-symbols-outlined" aria-hidden="true">edit</span></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ga-report-content">
+          <p id="status" class="ga-status" style="display:none"></p>
+          <div class="ga-card-list-content explorer">
+            <section class="xap-card">
+              <div class="explorer-title">
+                <h2>Sessions by Event name over time</h2>
+                <span class="granularity-pill">Day</span>
+              </div>
+              <div class="canvas-wrap"><canvas id="timeChart"></canvas></div>
+            </section>
+            <section class="xap-card">
+              <div class="explorer-title">
+                <h2>Sessions by Event name</h2>
+              </div>
+              <div class="canvas-wrap"><canvas id="barChart"></canvas></div>
+            </section>
+          </div>
+
+          <section class="xap-card wide" style="margin-top:16px">
+            <div class="table-controls">
+              <div class="search-field">
+                <span class="material-symbols-outlined" style="color:var(--ga-text-secondary)">search</span>
+                <input type="search" id="eventSearch" value="purchase" placeholder="Search…" aria-label="Search" />
+              </div>
+              <span id="tableRange" class="table-footer-meta"></span>
+            </div>
+            <div class="table-scroller">
+              <table class="adv-table">
+                <thead>
+                  <tr>
+                    <th>Event name</th>
+                    <th class="num sortable">Sessions</th>
+                    <th class="num">Event count</th>
+                    <th class="num">Total users</th>
+                    <th class="num">Event count per active user</th>
+                    <th class="num">Total revenue</th>
+                  </tr>
+                </thead>
+                <tbody id="eventTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/ga-date-picker.js"></script>
+  <script src="/static/events-page.js"></script>
+</body>
+</html>
