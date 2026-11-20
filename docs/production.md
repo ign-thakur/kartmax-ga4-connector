@@ -159,7 +159,9 @@ Rows are **upserted** by `Date` + `Property ID` + `Source`. Raw `sessionSource` 
 | 404 | Spreadsheet ID not found |
 | 422 | Missing tab, header mismatch, or invalid request body |
 
-Live integration test: `RUN_SHEETS_LIVE_TESTS=1 py -m pytest tests/test_sheets_export_live.py -q`
+Live integration test (requires `GOOGLE_SHEETS_TEST_SPREADSHEET_ID` shared with the service account):
+
+`RUN_SHEETS_LIVE_TESTS=1 py -m pytest tests/test_sheets_export_live.py -q`
 
 Google **service account** credentials (for MCP/GA4) are separate and never returned to KartmaX Backend.
 

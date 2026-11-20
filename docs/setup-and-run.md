@@ -4,6 +4,7 @@ This guide lists **exact commands** to install, configure, and run the **KartmaX
 
 Related docs:
 
+- [Project overview (what we built)](overview.md)
 - [Production deployment (Docker)](production.md)
 - [MCP HTTP setup](mcp-http-setup.md)
 
