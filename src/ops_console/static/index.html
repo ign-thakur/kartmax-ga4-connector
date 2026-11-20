@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KartmaX GA4 Connector — Ops Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" />
+  <link rel="stylesheet" href="/ops/static/ops.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand">
+        <img
+          class="brand-logo"
+          src="https://pictures.kartmax.in/cdn/logo/kartmaX-logo-black.png"
+          alt="KartmaX"
+          width="148"
+          height="40"
+          decoding="async"
+        />
+        <p class="brand-sub">GA4 Connector</p>
+      </div>
+      <nav class="nav">
+        <button type="button" class="nav-item active" data-section="overview">Overview</button>
+        <button type="button" class="nav-item" data-section="auth">Authentication</button>
+        <button type="button" class="nav-item" data-section="reports">Report Explorer</button>
+        <button type="button" class="nav-item" data-section="api">API Explorer</button>
+        <button type="button" class="nav-item" data-section="sheets">Google Sheets</button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="token-pill" id="token-pill">No active token</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h1 id="section-title">Overview</h1>
+        <div class="topbar-actions">
+          <button type="button" class="btn btn-ghost" id="btn-refresh-health" title="Refresh health">Refresh health</button>
+        </div>
+      </header>
+
+      <section class="panel visible" id="panel-overview" data-panel="overview">
+        <div class="cards" id="overview-cards"></div>
+        <div class="block">
+          <div class="block-head">
+            <h2>GET /api/v1/health</h2>
+            <button type="button" class="btn btn-ghost btn-sm" data-copy-target="overview-health-json">Copy JSON</button>
+          </div>
+          <pre class="json-view" id="overview-health-json">Generate a JWT (Authentication) and click Refresh health.</pre>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-auth" data-panel="auth">
+        <form class="form-grid" id="auth-form" autocomplete="off">
+          <label>
+            Client ID
+            <input name="client_id" type="text" required placeholder="kartmax-backend" />
+          </label>
+          <label>
+            Client Secret
+            <input name="client_secret" type="password" required placeholder="••••••••" />
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Generate token</button>
+            <button type="button" class="btn btn-danger" id="btn-clear-token">Clear token</button>
+          </div>
+        </form>
+        <div class="cards" id="auth-cards"></div>
+        <div class="block">
+          <div class="block-head">
+            <h2>Token API response</h2>
+            <button type="button" class="btn btn-ghost btn-sm" data-copy-target="auth-response-json">Copy JSON</button>
+          </div>
+          <pre class="json-view" id="auth-response-json">—</pre>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-reports" data-panel="reports">
+        <form class="form-grid" id="reports-form">
+          <label>Start date<input name="start_date" type="date" required /></label>
+          <label>End date<input name="end_date" type="date" required /></label>
+          <label>Property ID<input name="property_id" type="text" required pattern="\d+" /></label>
+          <div class="form-actions span-full">
+            <button type="button" class="btn btn-primary" data-report="gmv">Fetch GMV</button>
+            <button type="button" class="btn btn-primary" data-report="sessions">Fetch Sessions</button>
+            <button type="button" class="btn btn-primary" data-report="both">Fetch both</button>
+          </div>
+        </form>
+        <div class="stats" id="reports-stats"></div>
+        <div class="block" id="gmv-block" hidden>
+          <div class="block-head">
+            <h2>GMV by Source</h2>
+            <span class="report-summary" id="gmv-summary"></span>
+          </div>
+          <div id="gmv-by-date" class="report-by-date" aria-live="polite"></div>
+        </div>
+        <div class="block" id="sessions-block" hidden>
+          <div class="block-head">
+            <h2>Sessions by Source</h2>
+            <span class="report-summary" id="sessions-summary"></span>
+          </div>
+          <div id="sessions-by-date" class="report-by-date" aria-live="polite"></div>
+        </div>
+        <div class="alert" id="reports-alert" hidden></div>
+      </section>
+
+      <section class="panel" id="panel-api" data-panel="api">
+        <p class="hint">
+          All calls use live <code>/api/v1</code> endpoints. Events by Name are available via CLI / direct GA4 Data API only — not exposed as a v1 REST route.
+        </p>
+        <div id="api-endpoints"></div>
+      </section>
+
+      <section class="panel" id="panel-sheets" data-panel="sheets">
+        <form class="form-grid" id="sheets-form">
+          <label>Start date<input name="start_date" type="date" required /></label>
+          <label>End date<input name="end_date" type="date" required /></label>
+          <label>Property ID<input name="property_id" type="text" required /></label>
+          <label>Spreadsheet ID<input name="spreadsheet_id" type="text" required /></label>
+          <label class="checkbox-row span-full">
+            <input name="gmv" type="checkbox" checked /> GMV by Source
+          </label>
+          <label class="checkbox-row span-full">
+            <input name="sessions" type="checkbox" checked /> Sessions by Source
+          </label>
+          <div class="form-actions span-full">
+            <button type="submit" class="btn btn-primary">Export to Google Sheets</button>
+          </div>
+        </form>
+        <div class="cards" id="sheets-cards"></div>
+        <div class="block">
+          <div class="block-head">
+            <h2>Export API response</h2>
+            <button type="button" class="btn btn-ghost btn-sm" data-copy-target="sheets-response-json">Copy JSON</button>
+          </div>
+          <pre class="json-view" id="sheets-response-json">—</pre>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <script src="/ops/static/ops.js" defer></script>
+</body>
+</html>

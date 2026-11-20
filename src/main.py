@@ -4,6 +4,12 @@ import typer
 from src.auth.ga4_client import test_ga4_connection
 from src.cli.commands import report_app
 from src.config.logging_config import configure_logging
+from src.mcp.client import (
+    RUN_REPORT_TOOL,
+    McpClientError,
+    run_mcp_connectivity_check,
+    run_mcp_run_report_smoke_test,
+)
 
 configure_logging()
 
@@ -18,6 +24,52 @@ app.add_typer(report_app, name="report")
 def main():
     """KartmaX GA4 CLI."""
     pass
+
+
+@app.command("mcp-status")
+def mcp_status():
+    """Test connectivity to the Google Analytics MCP server (HTTP)."""
+    try:
+        result = run_mcp_connectivity_check()
+    except McpClientError as error:
+        typer.echo("MCP Connection: FAILED")
+        typer.echo(f"Error: {error}")
+        raise typer.Exit(code=1) from error
+
+    if not result.connected:
+        typer.echo("MCP Connection: FAILED")
+        typer.echo(f"Server: {result.server_url}")
+        typer.echo(f"Error: {result.error_message}")
+        raise typer.Exit(code=1)
+
+    typer.echo("MCP Connection: SUCCESS")
+    typer.echo(f"Server: {result.server_url}")
+    typer.echo(f"Tools listed: {len(result.tool_names)}")
+    if result.run_report_available:
+        typer.echo(f"{RUN_REPORT_TOOL}: available")
+    else:
+        typer.echo(f"{RUN_REPORT_TOOL}: NOT FOUND")
+        if result.error_message:
+            typer.echo(f"Detail: {result.error_message}")
+        raise typer.Exit(code=1)
+
+
+@app.command("mcp-run-report-smoke")
+def mcp_run_report_smoke():
+    """Call MCP run_report (sessions, yesterday) using the service account Bearer token."""
+    result = run_mcp_run_report_smoke_test()
+    if not result.ok:
+        typer.echo("MCP run_report: FAILED")
+        typer.echo(f"Property: {result.property_id}")
+        typer.echo(f"Error: {result.error_message}")
+        raise typer.Exit(code=1)
+
+    typer.echo("MCP run_report: SUCCESS")
+    typer.echo(f"Property: {result.property_id}")
+    typer.echo(f"Rows: {result.row_count}")
+    if result.sessions_value is not None:
+        typer.echo(f"Sessions (yesterday): {result.sessions_value}")
+    typer.echo(result.summary)
 
 
 @app.command()

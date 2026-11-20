@@ -1,0 +1,53 @@
+# Local / staging stack: KartmaX connector + official analytics-mcp (HTTP).
+# Secrets are NOT baked into images — mount SA JSON and pass API key via .env.
+
+services:
+  analytics-mcp:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.mcp
+    image: kartmax/analytics-mcp:1.1.0
+    expose:
+      - "8080"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import socket; s=socket.create_connection(('127.0.0.1',8080),5); s.close()",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 25s
+
+  ga4-connector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kartmax/ga4-connector:latest
+    ports:
+      - "${CONNECTOR_HOST_PORT:-8080}:8080"
+    environment:
+      ENABLE_DASHBOARD: "${ENABLE_DASHBOARD:-false}"
+      ENABLE_OPS_CONSOLE: "${ENABLE_OPS_CONSOLE:-false}"
+      MCP_SERVER_URL: http://analytics-mcp:8080/mcp
+      MCP_TIMEOUT: "${MCP_TIMEOUT:-30}"
+      KARTMAX_API_KEY: "${KARTMAX_API_KEY:?Set KARTMAX_API_KEY in .env}"
+      JWT_SIGNING_SECRET: "${JWT_SIGNING_SECRET:-}"
+      JWT_ISSUER: "${JWT_ISSUER:-kartmax-ga4-connector}"
+      JWT_AUDIENCE: "${JWT_AUDIENCE:-kartmax-backend}"
+      JWT_ACCESS_TOKEN_TTL_SECONDS: "${JWT_ACCESS_TOKEN_TTL_SECONDS:-1800}"
+      KARTMAX_OAUTH_CLIENTS: "${KARTMAX_OAUTH_CLIENTS:-}"
+      GA4_PROPERTY_ID: "${GA4_PROPERTY_ID:-}"
+      GA4_REPORTING_TIMEZONE: "${GA4_REPORTING_TIMEZONE:-UTC}"
+      REPORT_MAX_RANGE_DAYS: "${REPORT_MAX_RANGE_DAYS:-366}"
+      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/google-service-account.json
+    volumes:
+      - "${GOOGLE_APPLICATION_CREDENTIALS_HOST:?Set GOOGLE_APPLICATION_CREDENTIALS_HOST to your local SA JSON path}:/run/secrets/google-service-account.json:ro"
+    depends_on:
+      analytics-mcp:
+        condition: service_started
+    restart: unless-stopped

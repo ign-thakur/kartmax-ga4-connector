@@ -1,0 +1,16 @@
+{
+  "name": "kartmax-ga4-connector",
+  "version": "0.4.0",
+  "private": true,
+  "description": "KartmaX GA4 Connector (Python/FastAPI). Ops Console is static HTML/CSS/JS served by FastAPI — no Node build step.",
+  "scripts": {
+    "test": "py -m pytest -q",
+    "test:verbose": "py -m pytest",
+    "docker:build": "docker compose build",
+    "docker:up": "docker compose up -d",
+    "docker:up:dev": "docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f --tail=100",
+    "docker:rebuild": "docker compose build --no-cache && docker compose up -d"
+  }
+}

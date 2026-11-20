@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .env
 .secrets/
+secrets/
 *service-account*.json
 *credentials*.json
 .pytest_cache/

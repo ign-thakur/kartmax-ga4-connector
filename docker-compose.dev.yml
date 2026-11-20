@@ -1,0 +1,8 @@
+# Development overlay: legacy dashboard + ops console on the connector.
+services:
+  ga4-connector:
+    environment:
+      ENABLE_DASHBOARD: "true"
+      ENABLE_OPS_CONSOLE: "true"
+    ports:
+      - "${CONNECTOR_HOST_PORT:-8080}:8080"

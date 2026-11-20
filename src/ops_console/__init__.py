@@ -1,0 +1,1 @@
+"""Internal ops console (static UI for v1 API operations)."""

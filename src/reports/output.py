@@ -54,8 +54,8 @@ def validate_report_rows(
     for row in rows:
         if not row.get("date"):
             raise ValueError("Row missing date dimension.")
-        if "channel" not in row:
-            raise ValueError("Row missing channel dimension.")
+        if "source" not in row:
+            raise ValueError("Row missing source dimension.")
         raw = row.get(metric_key)
         if raw is None:
             raise ValueError(f"Row missing metric '{metric_key}'.")
